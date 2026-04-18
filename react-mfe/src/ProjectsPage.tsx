@@ -2,9 +2,9 @@
 // import('reactMfe/ProjectsPage') resolves to this file.
 
 import { useQuery } from '@tanstack/react-query';
-import { useUserStore } from './state/profileStore';
+import { useProjectsStore } from './state/profileStore';
 import { getProjects } from './services/projects';
-
+import { FiltersComponent } from './components/FiltersComponent';
 const projects = [
   {
     id: 1,
@@ -34,7 +34,7 @@ const projects = [
 
 export default function ProjectsPage() {
 
-   const { filters } = useUserStore();
+  const { filters } = useProjectsStore();
 
   const { data } = useQuery({
     queryKey: ['projects', filters],
@@ -50,13 +50,14 @@ export default function ProjectsPage() {
         <p className="section-sub">A few things I've shipped.</p>
       </div>
 
+      <FiltersComponent />
+
       <ul className="project-grid" role="list">
         <div>
-      {/* <FiltersComponent /> */}
-      {data?.map((project) => {
-          return <div key={project.id}>{project.name}</div>;
-      })}
-    </div>
+          {data?.map((project) => {
+            return <div key={project.id}>{project.name}</div>;
+          })}
+        </div>
         {projects.map((p) => (
           <li key={p.id} className="project-card">
             <div className="project-card__meta">

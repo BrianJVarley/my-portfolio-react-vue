@@ -1,5 +1,5 @@
-import { GetProjectsFilters } from '@/api/projects';
-import { Project } from '@/types/project';
+import { GetProjectsFilters } from '@/services/projects.ts';
+import { Project } from '@/models/project.ts';
 import { create } from 'zustand';
 
 type ProfileStore = {
@@ -7,7 +7,7 @@ type ProfileStore = {
   setFilters: (filters?: GetProjectsFilters) => void;
 };
 
-export const useUserStore = create<ProfileStore>((set) => ({
+export const useProjectsStore = create<ProfileStore>((set) => ({
   filters: undefined,
   setFilters: (filters) => set({ filters }),
 }));

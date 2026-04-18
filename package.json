@@ -2,15 +2,14 @@
   "name": "portfolio-mfe",
   "private": true,
   "scripts": {
-    "dev": "pnpm --parallel -r run dev",
-    "build:remotes": "pnpm --filter react-mfe run build && pnpm --filter vue-mfe run build",
-    "build": "pnpm run build:remotes && pnpm --filter shell run build",
+    "dev": "npx pnpm --parallel -r run dev",
+    "build:remotes": "npx pnpm --filter react-mfe run build && pnpm --filter vue-mfe run build",
+    "build": "npx pnpm run build:remotes && npx pnpm --filter shell run build",
     "preview": "pnpm --parallel -r run preview",
     "install:apps": "npm i --prefix shell && npm i --prefix react-mfe && npm i --prefix vue-mfe"
   },
   "devDependencies": {
+    "@types/node": "^25.6.0",
     "typescript": "^5.4.5"
-  },
-  "dependencies": {
   }
 }

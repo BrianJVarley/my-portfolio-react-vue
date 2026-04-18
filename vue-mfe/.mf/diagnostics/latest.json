@@ -1,10 +1,10 @@
 {
   "latestErrorEvent": {
     "code": "TYPE-001",
-    "message": "Failed to generate type declaration. Execute the below cmd to reproduce and fix the error. #TYPE-001\nargs: {\"cmd\":\"npx tsc --project C:\\\\Users\\\\LENOVO\\\\OneDrive\\\\Documentos\\\\portfolio-mfe\\\\vue-mfe\\\\node_modules\\\\.federation\\\\tsconfig.412a2bd517ae32b7b7fd78562e13590f.json\"}\nView the docs to see how to solve: https://module-federation.io/guide/troubleshooting/type#type-001",
+    "message": "Failed to generate type declaration. Execute the below cmd to reproduce and fix the error. #TYPE-001\nargs: {\"cmd\":\"npx tsc --project C:\\\\Users\\\\LENOVO\\\\OneDrive\\\\Documentos\\\\portfolio-mfe\\\\vue-mfe\\\\node_modules\\\\.federation\\\\tsconfig.5a4822c3fd2e9a8ec805ac7c5864b9f8.json\"}\nView the docs to see how to solve: https://module-federation.io/guide/troubleshooting/type#type-001",
     "args": {
-      "cmd": "npx tsc --project C:\\Users\\LENOVO\\OneDrive\\Documentos\\portfolio-mfe\\vue-mfe\\node_modules\\.federation\\tsconfig.412a2bd517ae32b7b7fd78562e13590f.json"
+      "cmd": "npx tsc --project C:\\Users\\LENOVO\\OneDrive\\Documentos\\portfolio-mfe\\vue-mfe\\node_modules\\.federation\\tsconfig.5a4822c3fd2e9a8ec805ac7c5864b9f8.json"
     },
-    "timestamp": 1776533967540
+    "timestamp": 1776536403708
   }
 }

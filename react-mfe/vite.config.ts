@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { federation } from '@module-federation/vite'
+import path from 'path'
 
 export default defineConfig({
   plugins: [
@@ -18,6 +19,11 @@ export default defineConfig({
     }),
     react(),
   ],
+  resolve: {
+    alias: {
+      '@/': path.resolve(__dirname, './src'),
+    },
+  },
   server: { port: 3001 },
   // Required: build to ESM for MF 2.0
   build: {

@@ -1,8 +1,9 @@
-import { Project } from '@/types/project';
+import { Project } from '@/models/project.ts';
 
 export type GetProjectsFilters = {
   limit: number;
   page: number;
+  latest?: boolean;
 };
 
 export async function getProjects(filters?: GetProjectsFilters) {

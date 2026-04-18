@@ -56,7 +56,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-const yearsExp = computed(() => new Date().getFullYear() - 2013)
+const yearsExp = computed(() => new Date().getFullYear() - 2015)
 
 const skills = [
   { name: 'TypeScript', level: 95 },
