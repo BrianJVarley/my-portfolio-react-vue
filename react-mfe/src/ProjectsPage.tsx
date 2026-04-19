@@ -1,74 +1,133 @@
 // This is the component exposed to the shell via Module Federation.
 // import('reactMfe/ProjectsPage') resolves to this file.
 
-import { useQuery } from '@tanstack/react-query';
-import { useProjectsStore } from './state/profileStore';
-import { getProjects } from './services/projects';
-import { FiltersComponent } from './components/FiltersComponent';
-const projects = [
-  {
-    id: 1,
-    title: 'Case Manager',
-    tech: ['Angular', 'NgRx', 'RxJS'],
-    description: 'End-to-end case handling platform for financial compliance workflows.',
-    year: '2024',
-    tag: 'Fintech',
-  },
-  {
-    id: 2,
-    title: 'HVAC Calculator',
-    tech: ['React Native', 'TypeScript'],
-    description: 'Duct sizing calculator for contractors — offline-first mobile app.',
-    year: '2023',
-    tag: 'Side project',
-  },
-  {
-    id: 3,
-    title: 'LLM Eval Tooling',
-    tech: ['Node.js', 'promptfoo', 'Groq'],
-    description: 'Custom evaluation harness for benchmarking LLM outputs at scale.',
-    year: '2024',
-    tag: 'AI tooling',
-  },
-]
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { motion } from "motion/react";
+import { useProjectsStore } from "./state/profileStore";
+import { getProjects } from "./services/projects";
+import { FiltersComponent } from "./components/FiltersComponent";
+import { useCallback } from "react";
+const MotionButton = motion.button;
 
 export default function ProjectsPage() {
-
+  const queryClient = useQueryClient();
   const { filters } = useProjectsStore();
 
-  const { data } = useQuery({
-    queryKey: ['projects', filters],
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["projects", filters],
     queryFn: () => getProjects(filters),
   });
 
+  const handleSelectedWorkClick = useCallback(() => {
+    queryClient.invalidateQueries({ queryKey: ["projects"] });
+  }, [queryClient]);
+
+  if (isLoading) {
+    return (
+      <motion.section
+        className="mfe-page"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="projects-header">
+          <span className="mfe-badge mfe-badge--react">React MFE</span>
+          <h2 className="section-title">Selected Work</h2>
+          <p className="section-sub">A few things I've shipped.</p>
+        </div>
+        <motion.div
+          className="loading-state"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.3 }}
+        >
+          <motion.span
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            Loading projects
+          </motion.span>
+          <div className="loading-dots">
+            {[0, 1, 2].map((i) => (
+              <motion.span
+                key={i}
+                className="loading-dot"
+                animate={{
+                  y: [0, -10, 0],
+                  opacity: [0.5, 1, 0.5],
+                }}
+                transition={{
+                  duration: 0.8,
+                  repeat: Infinity,
+                  delay: i * 0.2,
+                  ease: "easeInOut",
+                }}
+              >
+                .
+              </motion.span>
+            ))}
+          </div>
+        </motion.div>
+      </motion.section>
+    );
+  }
+
+  if (isError) {
+    return (
+      <section className="mfe-page">
+        <div className="projects-header">
+          <span className="mfe-badge mfe-badge--react">React MFE</span>
+          <h2 className="section-title">Selected Work</h2>
+          <p className="section-sub">A few things I've shipped.</p>
+        </div>
+        <div className="error-state">
+          Error loading projects: {error?.message || "Unknown error"}
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="mfe-page">
-      <div className="projects-header">
+      <div className="projects-header mfe-header-top">
         <span className="mfe-badge mfe-badge--react">React MFE</span>
-        <h2 className="section-title">Selected Work</h2>
+        <MotionButton
+          type="button"
+          onClick={handleSelectedWorkClick}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+          className="selected-work-button"
+        >
+          Selected Work
+        </MotionButton>
         <p className="section-sub">A few things I've shipped.</p>
       </div>
 
       <FiltersComponent />
 
       <ul className="project-grid" role="list">
-        <div>
-          {data?.map((project) => {
-            return <div key={project.id}>{project.name}</div>;
-          })}
-        </div>
-        {projects.map((p) => (
+        {data?.map((p) => (
           <li key={p.id} className="project-card">
             <div className="project-card__meta">
               <span className="project-card__year">{p.year}</span>
               <span className="project-card__tag">{p.tag}</span>
             </div>
             <h3 className="project-card__title">{p.title}</h3>
+            {p.company && <p className="project-card__company">Company: {p.company}</p>}
             <p className="project-card__desc">{p.description}</p>
-            <ul className="project-card__tech" role="list" aria-label="Technologies">
+            <ul
+              className="project-card__tech"
+              role="list"
+              aria-label="Technologies"
+            >
               {p.tech.map((t) => (
-                <li key={t} className="tech-chip">{t}</li>
+                <li key={t} className="tech-chip">
+                  {t}
+                </li>
               ))}
             </ul>
           </li>
@@ -77,6 +136,13 @@ export default function ProjectsPage() {
 
       <style>{`
         .projects-header { margin-bottom: 3rem; }
+
+        .mfe-header-top {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.75rem;
+        }
 
         .mfe-badge {
           display: inline-block;
@@ -90,6 +156,12 @@ export default function ProjectsPage() {
         .mfe-badge--react {
           border: 1px solid #61dafb;
           color: #61dafb;
+        }
+
+        .selected-work-button {
+          border: 1px solid #61dafb;
+          color: #61dafb;
+          background: transparent;
         }
 
         .section-title {
@@ -121,6 +193,32 @@ export default function ProjectsPage() {
           transition: background 200ms ease;
         }
         .project-card:hover { background: #1a1a1f; }
+
+        .loading-state, .error-state {
+          text-align: center;
+          padding: 2rem;
+          color: #6b6970;
+          font-size: 1rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .loading-dots {
+          display: flex;
+          gap: 0.2rem;
+        }
+
+        .loading-dot {
+          display: inline-block;
+          font-size: 1.5rem;
+          line-height: 1;
+        }
+
+        .error-state {
+          color: #ff6b6b;
+        }
 
         .project-card__meta {
           display: flex;
@@ -167,5 +265,5 @@ export default function ProjectsPage() {
         }
       `}</style>
     </section>
-  )
+  );
 }

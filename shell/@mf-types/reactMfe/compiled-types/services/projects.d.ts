@@ -1,4 +1,4 @@
-import { Project } from '@/models/project.ts';
+import { Project } from "@/models/project.ts";
 export type GetProjectsFilters = {
     limit: number;
     page: number;

@@ -6,13 +6,14 @@ import { federation } from '@module-federation/vite'
 export default defineConfig({
   plugins: [
     federation({
-      name: 'vueMfe',
+      name: "vueMfe",
       // Exposes: import('vueMfe/AboutPage') in the shell
+      manifest: true,
       exposes: {
-        './AboutPage': './src/AboutPageWrapper',
+        "./AboutPage": "./src/AboutPageWrapper",
       },
       shared: {
-        vue: { singleton: true, requiredVersion: '^3.5.0' },
+        vue: { singleton: true, requiredVersion: "^3.5.0" },
       },
     }),
     vue(),
@@ -20,7 +21,7 @@ export default defineConfig({
   ],
   server: { port: 3002 },
   build: {
-    target: 'esnext',
+    target: "esnext",
     minify: false,
   },
-})
+});

@@ -30,8 +30,8 @@ export default function App() {
       <div className="layout">
         <header className="site-header">
           <a href="/" className="wordmark">
-            <span className="wordmark__first">your</span>
-            <span className="wordmark__last">name</span>
+            <span className="wordmark__first">Brian</span>
+            <span className="wordmark__last">Varley</span>
           </a>
           <nav className="site-nav" aria-label="Main navigation">
             <NavLink to="/" end className={({ isActive }) => isActive ? 'nav-link nav-link--active' : 'nav-link'}>

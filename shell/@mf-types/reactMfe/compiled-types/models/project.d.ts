@@ -1,5 +1,10 @@
 export type Project = {
     id: number;
-    name: string;
+    title: string;
+    tech: string[];
+    description: string;
+    year: string;
+    tag: string;
+    company?: string;
 };
 export {};
