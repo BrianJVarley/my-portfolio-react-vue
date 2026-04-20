@@ -8,12 +8,13 @@ permissions:
   contents: read
   pull-requests: read
   actions: read
+  issues: read
 strict: true
 timeout-minutes: 20
 tools:
   github:
     toolsets: [default, actions, search]
-  edit: true
+  edit: {}
   bash: true
 safe-outputs:
   create-pull-request:
