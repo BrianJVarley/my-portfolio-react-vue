@@ -11,6 +11,9 @@ permissions:
   issues: read
 strict: true
 timeout-minutes: 20
+engine:
+  id: copilot
+  agent: portfolio-mfe
 tools:
   github:
     toolsets: [default, actions, search]
@@ -24,11 +27,11 @@ safe-outputs:
 ---
 # Maintain AGENTS.md
 
-You maintain the repository's `AGENTS.md` so it reflects the latest project reality.
+You maintain the repository's `shell/AGENTS.md` so it reflects the latest project reality for the shell package and the wider monorepo.
 
 ## Goal
 
-On each run, review what changed **since the previous successful run of this workflow**, then update `AGENTS.md` so it remains accurate and current, and open a pull request with those updates.
+On each run, review what changed **since the previous successful run of this workflow**, then update `shell/AGENTS.md` so it remains accurate and current, and open a pull request with those updates.
 
 ## Required process
 
@@ -44,9 +47,9 @@ On each run, review what changed **since the previous successful run of this wor
    - Review default-branch commits after `since`.
    - Capture changed files that were not represented in merged PR summaries.
 
-4. Read the current `AGENTS.md` (if it exists). If it does not exist, create it.
+4. Read the current `shell/AGENTS.md` (if it exists). If it does not exist, create it.
 
-5. Update `AGENTS.md` with concise, factual content that reflects current repository reality:
+5. Update `shell/AGENTS.md` with concise, factual content that reflects current repository reality:
    - What changed recently (merged PR highlights)
    - Material source/config/docs changes relevant to contributors or agents
    - Any updated conventions, commands, or architecture notes that are now true
@@ -64,6 +67,6 @@ On each run, review what changed **since the previous successful run of this wor
 
 ## Scope constraints
 
-- Focus on `AGENTS.md` maintenance only.
+- Focus on `shell/AGENTS.md` maintenance only.
 - Do not modify unrelated files unless strictly needed to keep `AGENTS.md` accurate.
 - Prefer repository facts derived from merged PRs and actual file diffs over assumptions.
