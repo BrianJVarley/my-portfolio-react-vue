@@ -11,21 +11,55 @@ const projects = [
     id: 1,
     title: "Case Manager",
     company: "Backbase",
-    tech: ["Angular", "NgRx", "RxJS", "TypeScript"],
+    tech: [
+      "Angular",
+      "TypeScript",
+      "NgRx",
+      "RxJS",
+      "Playwright",
+      "Nx",
+      "Web Components",
+      "WCAG",
+      "i18n",
+    ],
     description:
-      "End-to-end case handling platform for Financial Institutions.",
-    year: "2024",
+      "Led frontend delivery for new and existing Case Manager features, including components, state management, unit and E2E coverage, and deployment of Angular Nx libraries for accessible, internationalized banking apps.",
+    year: "2021-Present",
     tag: "Fintech",
   },
   {
     id: 2,
-    title: "Simple Offset",
-    tech: ["React Native", "TypeScript"],
+    title: "Workspaces",
+    company: "Avaya",
+    tech: [
+      "Angular",
+      "TypeScript",
+      "NgRx",
+      "RxJS",
+      "REST",
+      "WebSocket",
+      "Web Components",
+      "Highcharts",
+      "Gridster",
+      "SCSS",
+      "Webpack",
+      "Rollup",
+      "Azure",
+    ],
     description:
-      "Duct sizing calculator for contractors — offline-first mobile app.",
-    year: "2023",
+      "Built and scaled unified communications product experiences across dashboards and workflows, integrating real-time APIs and reusable frontend architecture in a distributed team.",
+    year: "2017-2021",
+    tag: "Unified Comms",
+  },
+  {
+    id: 3,
+    title: "Simple Offset",
+    tech: ["React Native", "TypeScript", "Offline-first"],
+    description:
+      "A productivity app for HVAC sheet metal fabrication that calculates angles and cut measurements for offsets. Reached 1000+ paid downloads.",
+    year: "2018-Present",
     tag: "Side project",
-  }
+  },
 ] as Project[];
 
 export async function getProjects(filters?: GetProjectsFilters) {

@@ -6,7 +6,7 @@ import { motion } from "motion/react";
 import { useProjectsStore } from "./state/profileStore";
 import { getProjects } from "./services/projects";
 import { FiltersComponent } from "./components/FiltersComponent";
-import { useCallback } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 const MotionButton = motion.button;
 
 export default function ProjectsPage() {
@@ -16,11 +16,36 @@ export default function ProjectsPage() {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["projects", filters],
     queryFn: () => getProjects(filters),
+    staleTime: (query) => {
+      return filters?.latest ? 1000 * 5 : 1000 * 60 * 10;
+    },
   });
 
   const handleSelectedWorkClick = useCallback(() => {
     queryClient.invalidateQueries({ queryKey: ["projects"] });
   }, [queryClient]);
+
+  const projectStats = useMemo(() => {
+    const projects = data ?? [];
+    const technologies = new Set(projects.flatMap((project) => project.tech));
+    const companies = new Set(
+      projects
+        .map((project) => project.company)
+        .filter((company): company is string => Boolean(company)),
+    );
+
+    return {
+      totalProjects: projects.length,
+      totalTechnologies: technologies.size,
+      totalCompanies: companies.size,
+    };
+  }, [data]);
+
+  useEffect(() => {
+    document.title = isLoading
+      ? "Selected Work | Loading"
+      : `Selected Work (${projectStats.totalProjects} projects)`;
+  }, [isLoading, projectStats.totalProjects]);
 
   if (isLoading) {
     return (
@@ -109,6 +134,14 @@ export default function ProjectsPage() {
 
       <FiltersComponent />
 
+      <p className="projects-summary" aria-live="polite">
+        {projectStats.totalProjects} projects across{" "}
+        {projectStats.totalTechnologies} technologies
+        {projectStats.totalCompanies > 0
+          ? ` for ${projectStats.totalCompanies} companies`
+          : ""}
+      </p>
+
       <ul className="project-grid" role="list">
         {data?.map((p) => (
           <li key={p.id} className="project-card">
@@ -117,7 +150,9 @@ export default function ProjectsPage() {
               <span className="project-card__tag">{p.tag}</span>
             </div>
             <h3 className="project-card__title">{p.title}</h3>
-            {p.company && <p className="project-card__company">Company: {p.company}</p>}
+            {p.company && (
+              <p className="project-card__company">Company: {p.company}</p>
+            )}
             <p className="project-card__desc">{p.description}</p>
             <ul
               className="project-card__tech"
@@ -175,6 +210,14 @@ export default function ProjectsPage() {
         .section-sub {
           color: #6b6970;
           font-size: 0.875rem;
+        }
+
+        .projects-summary {
+          color: #9a9898;
+          font-size: 0.75rem;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          margin: 1.25rem 0 1.5rem;
         }
 
         .project-grid {
