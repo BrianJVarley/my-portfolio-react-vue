@@ -1,4 +1,4 @@
-import { GetProjectsFilters } from '@/services/projects.ts';
+import { GetProjectsFilters } from "@/services/projects.ts";
 type ProfileStore = {
     filters?: GetProjectsFilters;
     setFilters: (filters?: GetProjectsFilters) => void;

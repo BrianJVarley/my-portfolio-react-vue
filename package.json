@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "npx pnpm --parallel -r run dev",
+    "dev:clean": "lsof -i tcp:3000 && lsof -i tcp:3001 && lsof -i tcp:3002",
     "build:remotes": "npx pnpm --filter react-mfe run build && pnpm --filter vue-mfe run build",
     "build": "npx pnpm run build:remotes && npx pnpm --filter shell run build",
     "preview": "pnpm --parallel -r run preview",

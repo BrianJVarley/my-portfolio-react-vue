@@ -63,7 +63,8 @@ const projects = [
 ] as Project[];
 
 export async function getProjects(filters?: GetProjectsFilters) {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const delay = filters?.latest ? 350 : 1000;
+  await new Promise((resolve) => setTimeout(resolve, delay));
 
   return projects as Project[];
 }

@@ -7,6 +7,9 @@ export default defineConfig({
   plugins: [
     federation({
       name: "shell",
+      dts: {
+        consumeTypes: false,
+      },
       remotes: {
         // React MFE — runs on :3001 in dev, served statically in prod
         reactMfe: {

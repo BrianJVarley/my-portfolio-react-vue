@@ -6,17 +6,25 @@ import { motion } from "motion/react";
 import { useProjectsStore } from "./state/profileStore";
 import { getProjects } from "./services/projects";
 import { FiltersComponent } from "./components/FiltersComponent";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useEffectEvent, useMemo } from "react";
+import { useLoadingAnimation } from "./hooks/useLoadingAnimation";
 const MotionButton = motion.button;
 
 export default function ProjectsPage() {
   const queryClient = useQueryClient();
   const { filters } = useProjectsStore();
+  const {
+    sectionMotion,
+    loadingStateMotion,
+    loadingTextMotion,
+    loadingDotAnimate,
+    getLoadingDotTransition,
+  } = useLoadingAnimation();
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["projects", filters],
     queryFn: () => getProjects(filters),
-    staleTime: (query) => {
+    staleTime: () => {
       return filters?.latest ? 1000 * 5 : 1000 * 60 * 10;
     },
   });
@@ -47,50 +55,50 @@ export default function ProjectsPage() {
       : `Selected Work (${projectStats.totalProjects} projects)`;
   }, [isLoading, projectStats.totalProjects]);
 
+  const handleGlobalKeydown = useEffectEvent((event: KeyboardEvent) => {
+    if (event.key.toLowerCase() !== "r") {
+      return;
+    }
+
+    const target = event.target;
+    const isTypingInField =
+      target instanceof HTMLInputElement ||
+      target instanceof HTMLTextAreaElement ||
+      (target instanceof HTMLElement && target.isContentEditable);
+
+    if (isTypingInField) {
+      return;
+    }
+
+    queryClient.invalidateQueries({ queryKey: ["projects", filters] });
+  });
+
+  useEffect(() => {
+    const onKeydown = (event: KeyboardEvent) => handleGlobalKeydown(event);
+
+    window.addEventListener("keydown", onKeydown);
+    return () => {
+      window.removeEventListener("keydown", onKeydown);
+    };
+  }, []);
+
   if (isLoading) {
     return (
-      <motion.section
-        className="mfe-page"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
+      <motion.section className="mfe-page" {...sectionMotion}>
         <div className="projects-header">
           <span className="mfe-badge mfe-badge--react">React MFE</span>
           <h2 className="section-title">Selected Work</h2>
-          <p className="section-sub">A few things I've shipped.</p>
+          <p className="section-sub">A few things I&apos;ve shipped.</p>
         </div>
-        <motion.div
-          className="loading-state"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.3 }}
-        >
-          <motion.span
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          >
-            Loading projects
-          </motion.span>
+        <motion.div className="loading-state" {...loadingStateMotion}>
+          <motion.span {...loadingTextMotion}>Loading projects</motion.span>
           <div className="loading-dots">
             {[0, 1, 2].map((i) => (
               <motion.span
                 key={i}
                 className="loading-dot"
-                animate={{
-                  y: [0, -10, 0],
-                  opacity: [0.5, 1, 0.5],
-                }}
-                transition={{
-                  duration: 0.8,
-                  repeat: Infinity,
-                  delay: i * 0.2,
-                  ease: "easeInOut",
-                }}
+                animate={loadingDotAnimate}
+                transition={getLoadingDotTransition(i)}
               >
                 .
               </motion.span>
@@ -107,7 +115,7 @@ export default function ProjectsPage() {
         <div className="projects-header">
           <span className="mfe-badge mfe-badge--react">React MFE</span>
           <h2 className="section-title">Selected Work</h2>
-          <p className="section-sub">A few things I've shipped.</p>
+          <p className="section-sub">A few things I&apos;ve shipped.</p>
         </div>
         <div className="error-state">
           Error loading projects: {error?.message || "Unknown error"}
@@ -129,7 +137,7 @@ export default function ProjectsPage() {
         >
           Selected Work
         </MotionButton>
-        <p className="section-sub">A few things I've shipped.</p>
+        <p className="section-sub">A few things I&apos;ve shipped.</p>
       </div>
 
       <FiltersComponent />
@@ -140,6 +148,9 @@ export default function ProjectsPage() {
         {projectStats.totalCompanies > 0
           ? ` for ${projectStats.totalCompanies} companies`
           : ""}
+      </p>
+      <p className="projects-shortcut-hint" aria-live="polite">
+        Press R anywhere on this page to refresh projects.
       </p>
 
       <ul className="project-grid" role="list">
@@ -218,6 +229,12 @@ export default function ProjectsPage() {
           letter-spacing: 0.08em;
           text-transform: uppercase;
           margin: 1.25rem 0 1.5rem;
+        }
+
+        .projects-shortcut-hint {
+          color: #6b6970;
+          font-size: 0.72rem;
+          margin: -0.75rem 0 1.5rem;
         }
 
         .project-grid {

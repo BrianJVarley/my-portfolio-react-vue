@@ -1,6 +1,5 @@
-import { GetProjectsFilters } from '@/services/projects.ts';
-import { Project } from '@/models/project.ts';
-import { create } from 'zustand';
+import { GetProjectsFilters } from "@/services/projects.ts";
+import { create } from "zustand";
 
 type ProfileStore = {
   filters?: GetProjectsFilters;
