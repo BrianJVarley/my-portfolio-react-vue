@@ -1,7 +1,7 @@
 // This is the component exposed to the shell via Module Federation.
 // import('reactMfe/ProjectsPage') resolves to this file.
 
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { motion } from "motion/react";
 import { useProjectsStore } from "./state/profileStore";
 import { getProjects } from "./services/projects";
@@ -10,8 +10,25 @@ import { useCallback, useEffect, useRef, useMemo } from "react";
 import { useLoadingAnimation } from "./hooks/useLoadingAnimation";
 const MotionButton = motion.button;
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5,
+      refetchOnWindowFocus: true,
+      refetchOnMount: true,
+    },
+  },
+});
+
 export default function ProjectsPage() {
-  const queryClient = useQueryClient();
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ProjectsPageInner />
+    </QueryClientProvider>
+  );
+}
+
+function ProjectsPageInner() {
   const { filters } = useProjectsStore();
   const {
     sectionMotion,
@@ -154,7 +171,7 @@ export default function ProjectsPage() {
         {projectStats.totalProjects} projects across{" "}
         {projectStats.totalTechnologies} technologies
         {projectStats.totalCompanies > 0
-          ? ` for ${projectStats.totalCompanies} companies & hobby project`
+          ? ` for ${projectStats.totalCompanies} companies & portfolios`
           : ""}
       </p>
     

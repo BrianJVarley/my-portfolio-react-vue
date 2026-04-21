@@ -25,7 +25,7 @@ export default defineConfig({
       "@/": path.resolve(__dirname, "./src"),
     },
   },
-  server: { port: 3001 },
+  server: { port: 3001, origin: "http://localhost:3001" },
   // Required: build to ESM for MF 2.0
   build: {
     target: "esnext",

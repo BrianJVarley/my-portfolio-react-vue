@@ -17,10 +17,10 @@ export default defineConfig({
         react: { singleton: true, requiredVersion: "^19.0.0" },
       },
     }),
-    vue(),
+    vue({ customElement: /AboutPage\.vue/ }),
     react(),
   ],
-  server: { port: 3002 },
+  server: { port: 3002, origin: "http://localhost:3002" },
   build: {
     target: "esnext",
     minify: false,

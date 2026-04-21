@@ -60,6 +60,16 @@ const projects = [
     year: "2018-Present",
     tag: "Side project",
   },
+  {
+    id: 4,
+    company: "HPE",
+    title: "Data Center Infrastructure Management",
+    tech: ["React", "JavaScript", "Redux", "D3", "SCSS", "Highcharts"],
+    description:
+      "Led frontend development for a data center infrastructure management tool, creating interactive visualizations and dashboards to monitor and optimize data center performance.",
+    year: "2016",
+    tag: "Side project",
+  },
 ] as Project[];
 
 export async function getProjects(filters?: GetProjectsFilters) {
