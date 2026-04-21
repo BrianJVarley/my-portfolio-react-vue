@@ -218,7 +218,6 @@ const values = [
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 1px;
-  background: #222228;
   border: 1px solid #222228;
 }
 

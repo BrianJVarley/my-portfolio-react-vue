@@ -263,7 +263,6 @@ function ProjectsPageInner() {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
           gap: 1px;
-          background: #222228;
           border: 1px solid #222228;
           list-style: none;
           padding: 0;
