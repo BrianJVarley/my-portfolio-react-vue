@@ -14,6 +14,7 @@ export default defineConfig({
       },
       shared: {
         vue: { singleton: true, requiredVersion: "^3.5.0" },
+        react: { singleton: true, requiredVersion: "^19.0.0" },
       },
     }),
     vue(),

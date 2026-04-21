@@ -172,7 +172,7 @@ Edit `skills`, `roles`, and `values` in the `<script setup>` block.
 ```css
 :root {
   --bg:      #0c0c0e;   /* page background          */
-  --accent:  #d4ff5c;   /* highlight — change this  */
+  --accent:  ##23c4eb;   /* highlight — change this  */
   --font-display: 'DM Serif Display', Georgia, serif;
   --font-mono:    'DM Mono', 'Fira Code', monospace;
 }

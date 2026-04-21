@@ -2,8 +2,8 @@
   "name": "portfolio-mfe",
   "private": true,
   "scripts": {
-    "dev": "npx pnpm --parallel -r run dev",
-    "dev:clean": "lsof -i tcp:3000 && lsof -i tcp:3001 && lsof -i tcp:3002",
+    "dev": "kill -9 $(lsof -ti:3000,3001,3002) && npx run cleanPorts && npx pnpm --parallel -r run dev",
+    "dev:clean": "lsof -ti tcp:3000,3001,3002 -sTCP:LISTEN | xargs kill -9 2>/dev/null || true",
     "build:remotes": "npx pnpm --filter react-mfe run build && pnpm --filter vue-mfe run build",
     "build": "npx pnpm run build:remotes && npx pnpm --filter shell run build",
     "preview": "pnpm --parallel -r run preview",

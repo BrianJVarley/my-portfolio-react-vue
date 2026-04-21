@@ -6,7 +6,7 @@
       <h2 class="section-title">About Me</h2>
       <p class="about__lead">
         Senior Frontend Engineer with {{ yearsExp }}+ years building
-        production interfaces — fintech, accessibility, design systems.
+        production web applications and libraries — fintech, unified communications, accessibility, design systems.
       </p>
     </div>
 
@@ -62,14 +62,15 @@ const skills = [
   { name: 'TypeScript', level: 95 },
   { name: 'Angular / NgRx', level: 92 },
   { name: 'React', level: 80 },
-  { name: 'Accessibility (WCAG)', level: 90 },
-  { name: 'Vue 3', level: 70 },
+  { name: 'Accessibility (WCAG, Axe)', level: 90 },
+  { name: 'Testing (Jest, Playwright)', level: 90 },
+  { name: 'Vue 3', level: 40 },
   { name: 'RxJS', level: 88 },
 ]
 
 const roles = [
-  { period: '2020–now', title: 'Senior Frontend Engineer', company: 'Backbase' },
-  { period: '2017–20',  title: 'Frontend Engineer',        company: 'Avaya' },
+  { period: '2021–now', title: 'Senior Frontend Engineer', company: 'Backbase' },
+  { period: '2017–21',  title: 'Senior Frontend Engineer',        company: 'Avaya' },
   { period: '2015–17',  title: 'UI Developer',             company: 'HPE' },
   { period: '2013–15',  title: 'Junior Developer',         company: 'Codec-dss' },
 ]
@@ -78,7 +79,7 @@ const values = [
   {
     icon: '♿',
     label: 'Accessibility-first',
-    desc: 'WCAG 2.1 AA as a baseline, not an afterthought. NVDA-tested, keyboard-navigable.',
+    desc: 'WCAG 2.1 AA as a baseline, not an afterthought. Screenreader-tested, keyboard-navigable.',
   },
   {
     icon: '⚡',
@@ -88,7 +89,12 @@ const values = [
   {
     icon: '🧩',
     label: 'Systems thinking',
-    desc: 'Design tokens, shared component libraries, and consistent patterns across teams.',
+    desc: 'Design tokens, shared component libraries, and consistent patterns across codebases.',
+  },
+  {
+    icon: '🚀',
+    label: 'Delivery focused',
+    desc: 'Efficient and timely delivery of high-quality software solutions.',
   },
 ]
 </script>

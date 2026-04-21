@@ -6,7 +6,7 @@ import { motion } from "motion/react";
 import { useProjectsStore } from "./state/profileStore";
 import { getProjects } from "./services/projects";
 import { FiltersComponent } from "./components/FiltersComponent";
-import { useCallback, useEffect, useEffectEvent, useMemo } from "react";
+import { useCallback, useEffect, useRef, useMemo } from "react";
 import { useLoadingAnimation } from "./hooks/useLoadingAnimation";
 const MotionButton = motion.button;
 
@@ -29,6 +29,10 @@ export default function ProjectsPage() {
     },
   });
 
+  /**
+   * example tanstack/query invalidate usage
+   * real example - would be used for CUD operations in the ProjectsPage, but since this is read-only we'll just re-fetch on button click for demo purposes
+   */
   const handleSelectedWorkClick = useCallback(() => {
     queryClient.invalidateQueries({ queryKey: ["projects"] });
   }, [queryClient]);
@@ -55,7 +59,10 @@ export default function ProjectsPage() {
       : `Selected Work (${projectStats.totalProjects} projects)`;
   }, [isLoading, projectStats.totalProjects]);
 
-  const handleGlobalKeydown = useEffectEvent((event: KeyboardEvent) => {
+  const handleGlobalKeydownRef = useRef<(event: KeyboardEvent) => void>(
+    () => {},
+  );
+  handleGlobalKeydownRef.current = (event: KeyboardEvent) => {
     if (event.key.toLowerCase() !== "r") {
       return;
     }
@@ -71,10 +78,11 @@ export default function ProjectsPage() {
     }
 
     queryClient.invalidateQueries({ queryKey: ["projects", filters] });
-  });
+  };
 
   useEffect(() => {
-    const onKeydown = (event: KeyboardEvent) => handleGlobalKeydown(event);
+    const onKeydown = (event: KeyboardEvent) =>
+      handleGlobalKeydownRef.current(event);
 
     window.addEventListener("keydown", onKeydown);
     return () => {
@@ -146,13 +154,10 @@ export default function ProjectsPage() {
         {projectStats.totalProjects} projects across{" "}
         {projectStats.totalTechnologies} technologies
         {projectStats.totalCompanies > 0
-          ? ` for ${projectStats.totalCompanies} companies`
+          ? ` for ${projectStats.totalCompanies} companies & hobby project`
           : ""}
       </p>
-      <p className="projects-shortcut-hint" aria-live="polite">
-        Press R anywhere on this page to refresh projects.
-      </p>
-
+    
       <ul className="project-grid" role="list">
         {data?.map((p) => (
           <li key={p.id} className="project-card">

@@ -64,6 +64,7 @@ const projects = [
 
 export async function getProjects(filters?: GetProjectsFilters) {
   const delay = filters?.latest ? 350 : 1000;
+  console.log(`getProjects called with filters:`, filters, `(simulated delay: ${delay}ms)`);
   await new Promise((resolve) => setTimeout(resolve, delay));
 
   return projects as Project[];

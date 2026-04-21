@@ -108,9 +108,9 @@ function HomePage() {
     <section className="home">
       <div className="home__eyebrow">Frontend Engineer</div>
       <h1 className="home__headline">
-        Crafting interfaces
+        A snapshot of my
         <br />
-        <em>worth remembering.</em>
+        <em>work & experience.</em>
       </h1>
       <p className="home__sub">
         This portfolio is a micro-frontend shell — the Projects section runs in{" "}
