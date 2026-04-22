@@ -54,6 +54,8 @@ const ALL_SKILLS: Skill[] = [
   },
   { name: "Playwright", level: 90, category: "Testing" },
   { name: "Jest", level: 90, category: "Testing" },
+  { name: "Peformance & Lighhiuse testing", level: 90, category: "Testing" },
+
   { name: "RxJS", level: 88, category: "Frontend" },
 ];
 

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "predeploy:gh": "pnpm build && cp -r react-mfe/dist shell/dist/react-mfe && cp -r vue-mfe/dist shell/dist/vue-mfe && touch shell/dist/.nojekyll",
-    "deploy:gh": "gh-pages -d shell/dist -r https://github.com/BrianJVarley/brianjvarley.github.io.git -b main",
+    "deploy:gh": "gh-pages -d shell/dist -r https://github.com/BrianJVarley/brianjvarley.github.io.git -b main -t",
     "dev": "npx kill-port 3000 3001 3002 && npx pnpm --parallel -r run dev",
     "dev:clean": "lsof -ti tcp:3000,3001,3002 -sTCP:LISTEN | xargs kill -9 2>/dev/null || true",
     "build:remotes": "npx pnpm --filter react-mfe run build && pnpm --filter vue-mfe run build",
