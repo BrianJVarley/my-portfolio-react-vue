@@ -3,6 +3,8 @@ import react from "@vitejs/plugin-react";
 import { federation } from "@module-federation/vite";
 import path from "path";
 
+const isProd = process.env.NODE_ENV === "production";
+
 export default defineConfig({
   plugins: [
     federation({
@@ -26,6 +28,9 @@ export default defineConfig({
     },
   },
   server: { port: 3001, origin: "http://localhost:3001" },
+  // Tells Vite (and the MF manifest) the public root in production,
+  // so remoteEntry URLs resolve to /react-mfe/assets/... not /assets/...
+  base: isProd ? "/react-mfe/" : "/",
   // Required: build to ESM for MF 2.0
   build: {
     target: "esnext",

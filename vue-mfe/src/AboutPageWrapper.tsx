@@ -16,9 +16,13 @@
 
 import { defineCustomElement } from 'vue'
 import AboutPageVue from './AboutPage.vue'
-
+import { createPinia } from 'pinia'
 // Convert Vue SFC → Custom Element
-const AboutPageElement = defineCustomElement(AboutPageVue)
+const AboutPageElement = defineCustomElement(AboutPageVue, {
+  configureApp(app) {
+    app.use(createPinia());
+  },
+});
 
 // Register once (guard against HMR double-registration)
 if (!customElements.get('about-page')) {

@@ -5,25 +5,61 @@
     <div class="about__intro">
       <h2 class="section-title">About Me</h2>
       <p class="about__lead">
-        Senior Frontend Engineer with {{ yearsExp }}+ years building
-        production web applications and libraries — fintech, unified communications, accessibility, design systems.
+        Senior Frontend Engineer with {{ yearsExp }}+ years building production
+        web applications and libraries — fintech, unified communications,
+        accessibility, design systems.
       </p>
     </div>
 
     <div class="about__grid">
       <div class="about__col">
         <h3 class="col-heading">Stack</h3>
-        <ul class="skill-list" role="list">
+
+        <!--
+          :class object syntax — a core Vue template feature.
+          { 'tab-btn--active': selectedCategory === cat } evaluates reactively;
+          Vue re-renders only the affected DOM node when selectedCategory changes.
+        -->
+        <div
+          class="skill-tabs"
+          role="group"
+          aria-label="Filter skills by category"
+        >
+          <button
+            v-for="cat in CATEGORIES"
+            :key="cat"
+            :class="[
+              'tab-btn',
+              { 'tab-btn--active': selectedCategory === cat },
+            ]"
+            :aria-pressed="selectedCategory === cat"
+            @click="setCategory(cat)"
+          >
+            {{ cat }}
+          </button>
+        </div>
+
+        <!--
+          <TransitionGroup> applies enter / leave CSS classes to each child
+          as items are added or removed from the list.
+          'tag="ul"' renders the wrapper element; 'name="skill"' prefixes the
+          generated class names (.skill-enter-active, .skill-leave-to, …).
+        -->
+        <TransitionGroup name="skill" tag="ul" class="skill-list" role="list">
           <li
-            v-for="skill in skills"
+            v-for="skill in filteredSkills"
             :key="skill.name"
             class="skill-item"
           >
             <span class="skill-item__name">{{ skill.name }}</span>
-            <span class="skill-item__bar" :style="{ '--w': skill.level + '%' }" aria-hidden="true" />
+            <span
+              class="skill-item__bar"
+              :style="{ '--w': skill.level + '%' }"
+              aria-hidden="true"
+            />
             <span class="sr-only">{{ skill.level }}%</span>
           </li>
-        </ul>
+        </TransitionGroup>
       </div>
 
       <div class="about__col">
@@ -41,7 +77,9 @@
         <h3 class="col-heading">Values</h3>
         <ul class="values-list" role="list">
           <li v-for="v in values" :key="v.label" class="value-card">
-            <span class="value-card__icon" aria-hidden="true">{{ v.icon }}</span>
+            <span class="value-card__icon" aria-hidden="true">{{
+              v.icon
+            }}</span>
             <div>
               <strong class="value-card__label">{{ v.label }}</strong>
               <p class="value-card__desc">{{ v.desc }}</p>
@@ -54,53 +92,65 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from "vue";
+import { storeToRefs } from "pinia";
+import { useSkillsStore, CATEGORIES } from "./stores/skillsStore";
 
-const yearsExp = computed(() => new Date().getFullYear() - 2015)
+const yearsExp = computed(() => new Date().getFullYear() - 2015);
 
-const skills = [
-  { name: 'TypeScript', level: 95 },
-  { name: 'Angular / NgRx', level: 92 },
-  { name: 'React', level: 80 },
-  { name: 'Accessibility (WCAG, Axe)', level: 90 },
-  { name: 'Testing (Jest, Playwright)', level: 90 },
-  { name: 'Vue 3', level: 40 },
-  { name: 'RxJS', level: 88 },
-]
+/**
+ * storeToRefs — unwraps the store's refs / computed values while keeping
+ * them reactive. Direct destructuring ({ selectedCategory } = store) would
+ * lose reactivity because it copies the raw value, not the ref.
+ * Non-ref properties (actions) are destructured directly from the store.
+ */
+const skillsStore = useSkillsStore();
+const { selectedCategory, filteredSkills } = storeToRefs(skillsStore);
+const { setCategory } = skillsStore;
 
 const roles = [
-  { period: '2021–now', title: 'Senior Frontend Engineer', company: 'Backbase' },
-  { period: '2017–21',  title: 'Senior Frontend Engineer',        company: 'Avaya' },
-  { period: '2015–17',  title: 'UI Developer',             company: 'HPE' },
-  { period: '2013–15',  title: 'Junior Developer',         company: 'Codec-dss' },
-]
+  {
+    period: "2021–now",
+    title: "Senior Frontend Engineer",
+    company: "Backbase",
+  },
+  { period: "2017–21", title: "Senior Frontend Engineer", company: "Avaya" },
+  { period: "2015–17", title: "Junior Frontend Engineer", company: "HPE" },
+  {
+    period: "2013–15",
+    title: "Graduate Software Engineer",
+    company: "Codec-dss",
+  },
+];
 
 const values = [
   {
-    icon: '♿',
-    label: 'Accessibility-first',
-    desc: 'WCAG 2.1 AA as a baseline, not an afterthought. Screenreader-tested, keyboard-navigable.',
+    icon: "♿",
+    label: "Accessibility-first",
+    desc: "WCAG 2.1 AA as a baseline, not an afterthought. Screenreader-tested, keyboard-navigable.",
   },
   {
-    icon: '⚡',
-    label: 'Performance-aware',
-    desc: 'Bundle budgets, lazy loading, and Core Web Vitals baked into every build.',
+    icon: "⚡",
+    label: "Performance-aware",
+    desc: "Bundle budgets, lazy loading, and Core Web Vitals baked into every build.",
   },
   {
-    icon: '🧩',
-    label: 'Systems thinking',
-    desc: 'Design tokens, shared component libraries, and consistent patterns across codebases.',
+    icon: "🧩",
+    label: "Systems thinking",
+    desc: "Design tokens, shared component libraries, and consistent patterns across codebases.",
   },
   {
-    icon: '🚀',
-    label: 'Delivery focused',
-    desc: 'Efficient and timely delivery of high-quality software solutions.',
+    icon: "🚀",
+    label: "Delivery focused",
+    desc: "Efficient and timely delivery of high-quality software solutions.",
   },
-]
+];
 </script>
 
 <style scoped>
-.about { font-family: 'DM Mono', monospace; }
+.about {
+  font-family: "DM Mono", monospace;
+}
 
 .mfe-badge {
   display: inline-block;
@@ -114,10 +164,12 @@ const values = [
   margin-bottom: 1.25rem;
 }
 
-.about__intro { margin-bottom: 3rem; }
+.about__intro {
+  margin-bottom: 3rem;
+}
 
 .section-title {
-  font-family: 'DM Serif Display', Georgia, serif;
+  font-family: "DM Serif Display", Georgia, serif;
   font-size: clamp(1.8rem, 4vw, 2.8rem);
   letter-spacing: -0.03em;
   color: #e8e6e1;
@@ -151,8 +203,50 @@ const values = [
   border-bottom: 1px solid #222228;
 }
 
+/* ── Skill filter tabs ── */
+.skill-tabs {
+  display: flex;
+  gap: 0.35rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  font-family: inherit;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid #2a2a30;
+  background: transparent;
+  color: #6b6970;
+  cursor: pointer;
+  transition:
+    border-color 150ms ease,
+    color 150ms ease,
+    background 150ms ease;
+}
+
+.tab-btn:hover {
+  border-color: #42b883;
+  color: #42b883;
+}
+
+.tab-btn--active {
+  border-color: #42b883;
+  color: #42b883;
+  background: rgba(66, 184, 131, 0.08);
+}
+
 /* ── Skills ── */
-.skill-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.85rem; }
+.skill-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
 
 .skill-item {
   display: grid;
@@ -173,7 +267,7 @@ const values = [
 }
 
 .skill-item__bar::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   width: var(--w, 0%);
@@ -183,12 +277,50 @@ const values = [
 }
 
 @keyframes barGrow {
-  from { width: 0; }
-  to   { width: var(--w); }
+  from {
+    width: 0;
+  }
+  to {
+    width: var(--w);
+  }
+}
+
+/* ── TransitionGroup: .skill-enter/leave classes ── */
+.skill-list {
+  position: relative; /* anchor for leave-active absolute positioning */
+}
+
+.skill-enter-active,
+.skill-leave-active {
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+/* Item that is leaving is taken out of flow so others can FLIP into place */
+.skill-leave-active {
+  position: absolute;
+  width: 100%;
+}
+
+.skill-enter-from {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.skill-leave-to {
+  opacity: 0;
+  transform: translateX(10px);
 }
 
 /* ── Timeline ── */
-.timeline { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0; }
+.timeline {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
 
 .timeline__item {
   display: grid;
@@ -208,8 +340,14 @@ const values = [
   letter-spacing: 0.05em;
 }
 
-.timeline__role    { color: #e8e6e1; }
-.timeline__company { color: #6b6970; font-size: 0.7rem; margin-top: 2px; }
+.timeline__role {
+  color: #e8e6e1;
+}
+.timeline__company {
+  color: #6b6970;
+  font-size: 0.7rem;
+  margin-top: 2px;
+}
 
 /* ── Values ── */
 .values-list {
@@ -230,24 +368,46 @@ const values = [
   transition: background 200ms ease;
 }
 
-.value-card:hover { background: #1a1a1f; }
+.value-card:hover {
+  background: #1a1a1f;
+}
 
-.value-card__icon  { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
-.value-card__label { display: block; font-size: 0.8rem; color: #e8e6e1; margin-bottom: 0.4rem; font-weight: 500; }
-.value-card__desc  { font-size: 0.75rem; line-height: 1.6; color: #6b6970; }
+.value-card__icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.value-card__label {
+  display: block;
+  font-size: 0.8rem;
+  color: #e8e6e1;
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+}
+.value-card__desc {
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: #6b6970;
+}
 
 .sr-only {
   position: absolute;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
   overflow: hidden;
-  clip: rect(0,0,0,0);
+  clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
 }
 
 @media (max-width: 600px) {
-  .about__grid { grid-template-columns: 1fr; }
-  .about__col--full { grid-column: 1; }
+  .about__grid {
+    grid-template-columns: 1fr;
+  }
+  .about__col--full {
+    grid-column: 1;
+  }
 }
 </style>

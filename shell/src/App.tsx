@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
+import { HashRouter, Routes, Route, NavLink, Link } from "react-router-dom";
 import { useLoadingFallback } from "./hooks/useLoadingFallback";
 
 // Lazy-load federated remotes — resolved at runtime via Module Federation
@@ -33,13 +33,13 @@ function ErrorFallback({ name }: { name: string }) {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className="layout">
         <header className="site-header">
-          <a href="/" className="wordmark">
+          <Link to="/" className="wordmark">
             <span className="wordmark__first">Brian</span>
             <span className="wordmark__last">Varley</span>
-          </a>
+          </Link>
           <nav className="site-nav" aria-label="Main navigation">
             <NavLink
               to="/"
@@ -99,7 +99,7 @@ export default function App() {
           <span>Built with React + Vue · Module Federation 2.0</span>
         </footer>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

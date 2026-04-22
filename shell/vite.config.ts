@@ -49,8 +49,8 @@ export default defineConfig({
   ],
   server: { port: 3000 },
   // Required for Module Federation shared chunks that use top-level await.
-  // build: {
-  //   target: "esnext",
-  //   minify: false,
-  // },
+  build: {
+    target: "esnext",
+    minify: false,
+  },
 });
