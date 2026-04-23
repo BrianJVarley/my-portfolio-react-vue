@@ -48,6 +48,7 @@
         <TransitionGroup name="skill" tag="ul" class="skill-list" role="list">
           <li
             v-for="skill in filteredSkills"
+            v-memo="[skill.name]"
             :key="skill.name"
             class="skill-item"
           >
@@ -95,6 +96,9 @@
 import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useSkillsStore, CATEGORIES } from "./stores/skillsStore";
+import { useRenderLogger } from "./composables/useRenderLogger";
+
+useRenderLogger("AboutPage");
 
 const yearsExp = computed(() => new Date().getFullYear() - 2015);
 
@@ -172,14 +176,14 @@ const values = [
   font-family: "DM Serif Display", Georgia, serif;
   font-size: clamp(1.8rem, 4vw, 2.8rem);
   letter-spacing: -0.03em;
-  color: #e8e6e1;
+  color: white;
   margin-bottom: 0.75rem;
 }
 
 .about__lead {
   font-size: 0.875rem;
   line-height: 1.7;
-  color: #9a9898;
+  color: white;
   max-width: 520px;
 }
 
@@ -197,7 +201,7 @@ const values = [
   font-size: 0.65rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #6b6970;
+  color: white;
   margin-bottom: 1.5rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid #222228;
@@ -220,7 +224,7 @@ const values = [
   border-radius: 999px;
   border: 1px solid #2a2a30;
   background: transparent;
-  color: #6b6970;
+  color: white;
   cursor: pointer;
   transition:
     border-color 150ms ease,
@@ -254,7 +258,7 @@ const values = [
   align-items: center;
   gap: 1rem;
   font-size: 0.75rem;
-  color: #9a9898;
+  color: white;
 }
 
 .skill-item__bar {
@@ -334,17 +338,17 @@ const values = [
 
 .timeline__period {
   grid-row: 1 / 3;
-  color: #6b6970;
+  color: white;
   font-size: 0.65rem;
   padding-top: 2px;
   letter-spacing: 0.05em;
 }
 
 .timeline__role {
-  color: #e8e6e1;
+  color: white;
 }
 .timeline__company {
-  color: #6b6970;
+  color: white;
   font-size: 0.7rem;
   margin-top: 2px;
 }
@@ -380,14 +384,14 @@ const values = [
 .value-card__label {
   display: block;
   font-size: 0.8rem;
-  color: #e8e6e1;
+  color: white;
   margin-bottom: 0.4rem;
   font-weight: 500;
 }
 .value-card__desc {
   font-size: 0.75rem;
   line-height: 1.6;
-  color: #6b6970;
+  color: white;
 }
 
 .sr-only {

@@ -1,10 +1,10 @@
 {
   "latestErrorEvent": {
     "code": "TYPE-001",
-    "message": "Failed to generate type declaration. Execute the below cmd to reproduce and fix the error. #TYPE-001\nargs: {\"cmd\":\"npx tsc --project /Users/brianvarley/Projects/my-portfolio-react-vue/react-mfe/node_modules/.federation/tsconfig.116c8d0a02b9f233782ea80de89d70cc.json\"}\nView the docs to see how to solve: https://module-federation.io/guide/troubleshooting/type#type-001",
+    "message": "Failed to generate type declaration. Execute the below cmd to reproduce and fix the error. #TYPE-001\nargs: {\"cmd\":\"npx tsc --project /Users/brianvarley/Projects/my-portfolio-react-vue/react-mfe/node_modules/.federation/tsconfig.ac9d41bada9553788cecf49aca6a8281.json\"}\nView the docs to see how to solve: https://module-federation.io/guide/troubleshooting/type#type-001",
     "args": {
-      "cmd": "npx tsc --project /Users/brianvarley/Projects/my-portfolio-react-vue/react-mfe/node_modules/.federation/tsconfig.116c8d0a02b9f233782ea80de89d70cc.json"
+      "cmd": "npx tsc --project /Users/brianvarley/Projects/my-portfolio-react-vue/react-mfe/node_modules/.federation/tsconfig.ac9d41bada9553788cecf49aca6a8281.json"
     },
-    "timestamp": 1776893718274
+    "timestamp": 1776943046022
   }
 }

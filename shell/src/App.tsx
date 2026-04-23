@@ -36,10 +36,10 @@ export default function App() {
     <HashRouter>
       <div className="layout">
         <header className="site-header">
-          <Link to="/" className="wordmark">
+          <NavLink to="/" className="wordmark">
             <span className="wordmark__first">Brian</span>
             <span className="wordmark__last">Varley</span>
-          </Link>
+          </NavLink>
           <nav className="site-nav" aria-label="Main navigation">
             <NavLink
               to="/"
@@ -152,21 +152,23 @@ function HomePage() {
       </h1>
       <p className="home__sub">
         This portfolio is a micro-frontend shell — the Projects section runs in{" "}
-        <strong>React</strong>, the About section in <strong>Vue</strong> as a custom element, both
-        composed at runtime via Module Federation 2.0.
+        <strong>React</strong>, the About section in <strong>Vue</strong> as a
+        custom element, both composed at runtime via Module Federation 2.0.
       </p>
       <div className="home__cta-row">
-        <a href="/projects" className="btn btn--primary">
+        <a href="#/projects" className="btn btn--primary">
           View Projects
         </a>
-        <a href="/about" className="btn btn--ghost">
+        <a href="#/about" className="btn btn--ghost">
           About Me
         </a>
       </div>
       <div className="home__mfe-legend" aria-hidden="true">
-        <span className="pill pill--react">React Microfrontend ·</span>
         <span className="pill pill--vue">Vue Microfrontend ·</span>
+        <span>....</span>
         <span className="pill pill--shell">React Shell app </span>
+        <span>....</span>
+        <span className="pill pill--react">React Microfrontend ·</span>
       </div>
     </section>
   );

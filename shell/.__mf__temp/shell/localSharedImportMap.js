@@ -124,7 +124,7 @@
                   entryGlobalName: "reactMfe",
                   name: "reactMfe",
                   type: "module",
-                  entry: "/react-mfe/mf-manifest.json",
+                  entry: "http://localhost:3001/mf-manifest.json",
                   shareScope: "default",
                 }
           ,
@@ -132,7 +132,7 @@
                   entryGlobalName: "vueMfe",
                   name: "vueMfe",
                   type: "module",
-                  entry: "/vue-mfe/mf-manifest.json",
+                  entry: "http://localhost:3002/mf-manifest.json",
                   shareScope: "default",
                 }
           

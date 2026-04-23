@@ -1,12 +1,16 @@
 // This is the component exposed to the shell via Module Federation.
 // import('reactMfe/ProjectsPage') resolves to this file.
 
-import { useQuery, useQueryClient, QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  useQuery,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import { motion } from "motion/react";
 import { useProjectsStore } from "./state/profileStore";
 import { getProjects } from "./services/projects";
 import { FiltersComponent } from "./components/FiltersComponent";
-import { useCallback, useEffect, useRef, useMemo } from "react";
+import { useCallback, useEffect, useRef, useMemo, useState } from "react";
 import { useLoadingAnimation } from "./hooks/useLoadingAnimation";
 const MotionButton = motion.button;
 
@@ -72,9 +76,31 @@ function ProjectsPageInner() {
 
   useEffect(() => {
     document.title = isLoading
-      ? "Selected Work | Loading"
-      : `Selected Work (${projectStats.totalProjects} projects)`;
+      ? "Projects | Loading"
+      : `${projectStats.totalProjects} projects`;
   }, [isLoading, projectStats.totalProjects]);
+
+  const [summaryAnnouncement, setSummaryAnnouncement] = useState("");
+  useEffect(() => {
+    if (isLoading || !data) return;
+    setSummaryAnnouncement("");
+    const id = setTimeout(() => {
+      setSummaryAnnouncement(
+        `${projectStats.totalProjects} projects across ${projectStats.totalTechnologies} technologies${
+          projectStats.totalCompanies > 0
+            ? ` for ${projectStats.totalCompanies} companies & portfolios`
+            : ""
+        }`,
+      );
+    }, 100);
+    return () => clearTimeout(id);
+  }, [
+    isLoading,
+    data,
+    projectStats.totalProjects,
+    projectStats.totalTechnologies,
+    projectStats.totalCompanies,
+  ]);
 
   const handleGlobalKeydownRef = useRef<(event: KeyboardEvent) => void>(
     () => {},
@@ -152,29 +178,24 @@ function ProjectsPageInner() {
   return (
     <section className="mfe-page">
       <div className="projects-header mfe-header-top">
-        <span className="mfe-badge mfe-badge--react">React MFE</span>
         <MotionButton
           type="button"
           onClick={handleSelectedWorkClick}
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
-          className="selected-work-button"
+          className="mfe-badge mfe-badge--react"
         >
-          Selected Work
+          React MFE
         </MotionButton>
         <p className="section-sub">A few things I&apos;ve shipped.</p>
       </div>
 
       <FiltersComponent />
 
-      <p className="projects-summary" aria-live="polite">
-        {projectStats.totalProjects} projects across{" "}
-        {projectStats.totalTechnologies} technologies
-        {projectStats.totalCompanies > 0
-          ? ` for ${projectStats.totalCompanies} companies & portfolios`
-          : ""}
+      <p className="projects-summary" aria-live="polite" aria-atomic="true">
+        {summaryAnnouncement}
       </p>
-    
+
       <ul className="project-grid" role="list">
         {data?.map((p) => (
           <li key={p.id} className="project-card">
@@ -224,6 +245,7 @@ function ProjectsPageInner() {
         .mfe-badge--react {
           border: 1px solid #61dafb;
           color: #61dafb;
+          background: transparent;  
         }
 
         .selected-work-button {
@@ -236,17 +258,17 @@ function ProjectsPageInner() {
           font-family: 'DM Serif Display', Georgia, serif;
           font-size: clamp(1.8rem, 4vw, 2.8rem);
           letter-spacing: -0.03em;
-          color: #e8e6e1;
+          color: white;
           margin-bottom: 0.5rem;
         }
 
         .section-sub {
-          color: #6b6970;
+          color: white;
           font-size: 0.875rem;
         }
 
         .projects-summary {
-          color: #9a9898;
+          color: white;
           font-size: 0.75rem;
           letter-spacing: 0.08em;
           text-transform: uppercase;
@@ -307,14 +329,14 @@ function ProjectsPageInner() {
           font-size: 0.65rem;
           letter-spacing: 0.1em;
           text-transform: uppercase;
-          color: #6b6970;
+          color: white;
           margin-bottom: 1rem;
         }
 
         .project-card__title {
           font-family: 'DM Serif Display', Georgia, serif;
           font-size: 1.3rem;
-          color: #e8e6e1;
+          color: white;
           margin-bottom: 0.75rem;
           letter-spacing: -0.02em;
         }
@@ -322,7 +344,7 @@ function ProjectsPageInner() {
         .project-card__desc {
           font-size: 0.8rem;
           line-height: 1.65;
-          color: #9a9898;
+          color: white;
           margin-bottom: 1.25rem;
         }
 
@@ -340,7 +362,7 @@ function ProjectsPageInner() {
           text-transform: uppercase;
           background: #1e1e24;
           border: 1px solid #2a2a32;
-          color: #9a9898;
+          color: white;
           padding: 0.2rem 0.55rem;
           border-radius: 3px;
         }

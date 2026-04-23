@@ -26,11 +26,17 @@ export function FiltersComponent() {
       <label>
         <input
           type="checkbox"
+          className="projects-filter"
           checked={isLatestEnabled}
           onChange={(e) => handleProjectsToggle(e.target.checked)}
         />
         Latest Projects
       </label>
+      <style>{`
+        .projects-filter { margin-right: 1rem; }
+
+      
+      `}</style>
     </div>
   );
 }

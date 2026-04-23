@@ -64,7 +64,7 @@ const projects = [
   {
     id: 4,
     company: "HPE",
-    title: "Data Center Infrastructure Management",
+    title: "Data Driven Metrics Dashboard",
     tech: ["React", "JavaScript", "Redux", "D3", "SCSS", "Highcharts"],
     description:
       "Led frontend development for a data center infrastructure management tool, creating interactive visualizations and dashboards to monitor and optimize data center performance.",
