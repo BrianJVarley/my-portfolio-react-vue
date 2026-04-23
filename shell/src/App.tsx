@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { HashRouter, Routes, Route, NavLink, Link } from "react-router-dom";
+import { HashRouter, Routes, Route, NavLink } from "react-router-dom";
 import { useLoadingFallback } from "./hooks/useLoadingFallback";
 
 // Lazy-load federated remotes — resolved at runtime via Module Federation
