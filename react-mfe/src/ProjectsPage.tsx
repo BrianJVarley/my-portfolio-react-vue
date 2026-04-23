@@ -291,7 +291,7 @@ function ProjectsPageInner() {
         }
 
         .project-card {
-          background: #131316;
+          background: var(--border);
           padding: 2rem;
           transition: background 200ms ease;
         }

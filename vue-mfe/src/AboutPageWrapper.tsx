@@ -22,7 +22,9 @@ const AboutPageElement = defineCustomElement(AboutPageVue, {
   configureApp(app) {
     app.use(createPinia());
   },
+  shadowRoot: true, // enable Shadow DOM encapsulation
 });
+
 
 // Register once (guard against HMR double-registration)
 if (!customElements.get('about-page')) {

@@ -153,7 +153,7 @@ const values = [
 
 <style scoped>
 .about {
-  font-family: "DM Mono", monospace;
+  font-family: var(--font-mono, "DM Mono", monospace);
 }
 
 .mfe-badge {
@@ -163,8 +163,8 @@ const values = [
   text-transform: uppercase;
   padding: 0.2rem 0.6rem;
   border-radius: 999px;
-  border: 1px solid #42b883;
-  color: #42b883;
+  border: 1px solid var(--vue, #42b883);
+  color: var(--vue, #42b883);
   margin-bottom: 1.25rem;
 }
 
@@ -173,17 +173,17 @@ const values = [
 }
 
 .section-title {
-  font-family: "DM Serif Display", Georgia, serif;
+  font-family: var(--font-display, "DM Serif Display", Georgia, serif);
   font-size: clamp(1.8rem, 4vw, 2.8rem);
   letter-spacing: -0.03em;
-  color: white;
+  color: var(--text, white);
   margin-bottom: 0.75rem;
 }
 
 .about__lead {
   font-size: 0.875rem;
   line-height: 1.7;
-  color: white;
+  color: var(--text, white);
   max-width: 520px;
 }
 
@@ -201,10 +201,10 @@ const values = [
   font-size: 0.65rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: white;
+  color: var(--text, white);
   margin-bottom: 1.5rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid #222228;
+  border-bottom: 1px solid var(--border, #222228);
 }
 
 /* ── Skill filter tabs ── */
@@ -222,9 +222,9 @@ const values = [
   text-transform: uppercase;
   padding: 0.25rem 0.65rem;
   border-radius: 999px;
-  border: 1px solid #2a2a30;
+  border: 1px solid var(--border, #2a2a30);
   background: transparent;
-  color: white;
+  color: var(--text, white);
   cursor: pointer;
   transition:
     border-color 150ms ease,
@@ -233,13 +233,13 @@ const values = [
 }
 
 .tab-btn:hover {
-  border-color: #42b883;
-  color: #42b883;
+  border-color: var(--vue, #42b883);
+  color: var(--vue, #42b883);
 }
 
 .tab-btn--active {
-  border-color: #42b883;
-  color: #42b883;
+  border-color: var(--vue, #42b883);
+  color: var(--vue, #42b883);
   background: rgba(66, 184, 131, 0.08);
 }
 
@@ -258,13 +258,13 @@ const values = [
   align-items: center;
   gap: 1rem;
   font-size: 0.75rem;
-  color: white;
+  color: var(--text, white);
 }
 
 .skill-item__bar {
   display: block;
   height: 2px;
-  background: #222228;
+  background: var(--border, #222228);
   border-radius: 999px;
   position: relative;
   overflow: hidden;
@@ -275,7 +275,7 @@ const values = [
   position: absolute;
   inset: 0;
   width: var(--w, 0%);
-  background: #42b883;
+  background: var(--vue, #42b883);
   border-radius: 999px;
   animation: barGrow 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
@@ -332,23 +332,23 @@ const values = [
   grid-template-rows: auto auto;
   column-gap: 1rem;
   padding: 0.9rem 0;
-  border-bottom: 1px solid #1a1a1f;
+  border-bottom: 1px solid var(--surface, #1a1a1f);
   font-size: 0.75rem;
 }
 
 .timeline__period {
   grid-row: 1 / 3;
-  color: white;
+  color: var(--muted, #6b93b5);
   font-size: 0.65rem;
   padding-top: 2px;
   letter-spacing: 0.05em;
 }
 
 .timeline__role {
-  color: white;
+  color: var(--text, white);
 }
 .timeline__company {
-  color: white;
+  color: var(--muted, #6b93b5);
   font-size: 0.7rem;
   margin-top: 2px;
 }
@@ -360,11 +360,11 @@ const values = [
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 1px;
-  border: 1px solid #222228;
+  border: 1px solid var(--border, #222228);
 }
 
 .value-card {
-  background: #131316;
+  background: var(--vue);
   padding: 1.5rem;
   display: flex;
   gap: 1rem;
@@ -373,7 +373,7 @@ const values = [
 }
 
 .value-card:hover {
-  background: #1a1a1f;
+  background: var(--bg, #0b1e2d);
 }
 
 .value-card__icon {
@@ -384,14 +384,14 @@ const values = [
 .value-card__label {
   display: block;
   font-size: 0.8rem;
-  color: white;
+  color: var(--text, white);
   margin-bottom: 0.4rem;
   font-weight: 500;
 }
 .value-card__desc {
   font-size: 0.75rem;
   line-height: 1.6;
-  color: white;
+  color: var(--text, white);
 }
 
 .sr-only {
